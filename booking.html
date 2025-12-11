@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Delivery - AF Logistics</title>
+    <link rel="stylesheet" href="booking.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <i class="fas fa-truck-fast"></i>
+                    <span>AF Logistics</span>
+                </div>
+                <div class="nav-toggle" id="navToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="booking.html" class="active">Book Now</a></li>
+                    <li><a href="tracking.html">Track Order</a></li>
+                    <li><a href="index.html#services">Services</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                    <li><a href="login.html" class="btn-login">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1><i class="fas fa-box"></i> Book Your Delivery</h1>
+            <p>Fast, reliable, and secure delivery services</p>
+        </div>
+    </section>
+
+    <!-- Booking Form Section -->
+    <section class="booking-section">
+        <div class="container">
+            <div class="booking-wrapper">
+                <!-- Progress Steps -->
+                <div class="progress-steps">
+                    <div class="step active" data-step="1">
+                        <div class="step-number">1</div>
+                        <div class="step-label">Package Details</div>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step" data-step="2">
+                        <div class="step-number">2</div>
+                        <div class="step-label">Pickup & Delivery</div>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step" data-step="3">
+                        <div class="step-number">3</div>
+                        <div class="step-label">Contact Info</div>
+                    </div>
+                    <div class="step-line"></div>
+                    <div class="step" data-step="4">
+                        <div class="step-number">4</div>
+                        <div class="step-label">Confirmation</div>
+                    </div>
+                </div>
+
+                <!-- Booking Form -->
+                <div class="booking-form-container">
+                    <form id="bookingForm" class="booking-form">
+                        
+                        <!-- Step 1: Package Details -->
+                        <div class="form-step active" data-step="1">
+                            <h2>Package Details</h2>
+                            <p class="step-description">Tell us about your package</p>
+
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label for="packageType">
+                                        <i class="fas fa-box"></i> Package Type
+                                    </label>
+                                    <select id="packageType" required>
+                                        <option value="">Select Package Type</option>
+                                        <option value="document">Document</option>
+                                        <option value="parcel">Parcel</option>
+                                        <option value="fragile">Fragile Item</option>
+                                        <option value="electronics">Electronics</option>
+                                        <option value="clothing">Clothing</option>
+                                        <option value="food">Food & Beverages</option>
+                                        <option value="other">Other</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="packageWeight">
+                                        <i class="fas fa-weight-hanging"></i> Weight (kg)
+                                    </label>
+                                    <input type="number" id="packageWeight" placeholder="Enter weight" min="0.1" step="0.1" required>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="packageSize">
+                                        <i class="fas fa-ruler-combined"></i> Size
+                                    </label>
+                                    <select id="packageSize" required>
+                                        <option value="">Select Size</option>
+                                        <option value="small">Small (up to 30cm)</option>
+                                        <option value="medium">Medium (30-60cm)</option>
+                                        <option value="large">Large (60-100cm)</option>
+                                        <option value="xlarge">Extra Large (100cm+)</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="packageValue">
+                                        <i class="fas fa-dollar-sign"></i> Declared Value (₦)
+                                    </label>
+                                    <input type="number" id="packageValue" placeholder="Enter value" min="0" step="100">
+                                </div>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="packageDescription">
+                                    <i class="fas fa-align-left"></i> Package Description
+                                </label>
+                                <textarea id="packageDescription" rows="3" placeholder="Brief description of package contents" required></textarea>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-next" data-next="2">
+                                    Next Step <i class="fas fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2: Pickup & Delivery -->
+                        <div class="form-step" data-step="2">
+                            <h2>Pickup & Delivery Details</h2>
+                            <p class="step-description">Where should we pick up and deliver?</p>
+
+                            <div class="location-section">
+                                <h3><i class="fas fa-location-dot"></i> Pickup Location</h3>
+                                <div class="form-grid">
+                                    <div class="form-group full-width">
+                                        <label for="pickupAddress">Full Address</label>
+                                        <input type="text" id="pickupAddress" placeholder="Enter pickup address" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="pickupCity">City</label>
+                                        <input type="text" id="pickupCity" placeholder="Enter city" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="pickupState">State</label>
+                                        <input type="text" id="pickupState" placeholder="Enter state" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="pickupDate">Pickup Date</label>
+                                        <input type="date" id="pickupDate" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="pickupTime">Pickup Time</label>
+                                        <select id="pickupTime" required>
+                                            <option value="">Select Time</option>
+                                            <option value="morning">Morning (8AM - 12PM)</option>
+                                            <option value="afternoon">Afternoon (12PM - 4PM)</option>
+                                            <option value="evening">Evening (4PM - 8PM)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="location-section">
+                                <h3><i class="fas fa-map-marker-alt"></i> Delivery Location</h3>
+                                <div class="form-grid">
+                                    <div class="form-group full-width">
+                                        <label for="deliveryAddress">Full Address</label>
+                                        <input type="text" id="deliveryAddress" placeholder="Enter delivery address" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="deliveryCity">City</label>
+                                        <input type="text" id="deliveryCity" placeholder="Enter city" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="deliveryState">State</label>
+                                        <input type="text" id="deliveryState" placeholder="Enter state" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="deliveryType">
+                                    <i class="fas fa-shipping-fast"></i> Delivery Type
+                                </label>
+                                <div class="delivery-options">
+                                    <label class="radio-card">
+                                        <input type="radio" name="deliveryType" value="express" required>
+                                        <div class="radio-content">
+                                            <i class="fas fa-bolt"></i>
+                                            <h4>Express Delivery</h4>
+                                            <p>Same day delivery</p>
+                                            <span class="price">₦3,500</span>
+                                        </div>
+                                    </label>
+                                    <label class="radio-card">
+                                        <input type="radio" name="deliveryType" value="standard" required>
+                                        <div class="radio-content">
+                                            <i class="fas fa-truck"></i>
+                                            <h4>Standard Delivery</h4>
+                                            <p>2-3 business days</p>
+                                            <span class="price">₦2,000</span>
+                                        </div>
+                                    </label>
+                                    <label class="radio-card">
+                                        <input type="radio" name="deliveryType" value="economy" required>
+                                        <div class="radio-content">
+                                            <i class="fas fa-box"></i>
+                                            <h4>Economy Delivery</h4>
+                                            <p>4-7 business days</p>
+                                            <span class="price">₦1,200</span>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-back" data-prev="1">
+                                    <i class="fas fa-arrow-left"></i> Back
+                                </button>
+                                <button type="button" class="btn btn-next" data-next="3">
+                                    Next Step <i class="fas fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 3: Contact Information -->
+                        <div class="form-step" data-step="3">
+                            <h2>Contact Information</h2>
+                            <p class="step-description">Who should we contact?</p>
+
+                            <div class="contact-section">
+                                <h3><i class="fas fa-user"></i> Sender Information</h3>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="senderName">Full Name</label>
+                                        <input type="text" id="senderName" placeholder="Enter sender name" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="senderPhone">Phone Number</label>
+                                        <input type="tel" id="senderPhone" placeholder="+234 800 000 0000" required>
+                                    </div>
+
+                                    <div class="form-group full-width">
+                                        <label for="senderEmail">Email Address</label>
+                                        <input type="email" id="senderEmail" placeholder="sender@example.com" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="contact-section">
+                                <h3><i class="fas fa-user-check"></i> Receiver Information</h3>
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label for="receiverName">Full Name</label>
+                                        <input type="text" id="receiverName" placeholder="Enter receiver name" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="receiverPhone">Phone Number</label>
+                                        <input type="tel" id="receiverPhone" placeholder="+234 800 000 0000" required>
+                                    </div>
+
+                                    <div class="form-group full-width">
+                                        <label for="receiverEmail">Email Address (Optional)</label>
+                                        <input type="email" id="receiverEmail" placeholder="receiver@example.com">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label for="specialInstructions">
+                                    <i class="fas fa-comment"></i> Special Instructions (Optional)
+                                </label>
+                                <textarea id="specialInstructions" rows="3" placeholder="Any special delivery instructions?"></textarea>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-back" data-prev="2">
+                                    <i class="fas fa-arrow-left"></i> Back
+                                </button>
+                                <button type="button" class="btn btn-next" data-next="4">
+                                    Review Booking <i class="fas fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Confirmation -->
+                        <div class="form-step" data-step="4">
+                            <h2>Review Your Booking</h2>
+                            <p class="step-description">Please review your booking details</p>
+
+                            <div class="confirmation-grid">
+                                <div class="confirmation-card">
+                                    <h3><i class="fas fa-box"></i> Package Details</h3>
+                                    <div class="detail-row">
+                                        <span>Type:</span>
+                                        <strong id="confirmPackageType">-</strong>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span>Weight:</span>
+                                        <strong id="confirmWeight">-</strong>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span>Size:</span>
+                                        <strong id="confirmSize">-</strong>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span>Description:</span>
+                                        <strong id="confirmDescription">-</strong>
+                                    </div>
+                                </div>
+
+                                <div class="confirmation-card">
+                                    <h3><i class="fas fa-location-dot"></i> Pickup</h3>
+                                    <div class="detail-row">
+                                        <span>Address:</span>
+                                        <strong id="confirmPickupAddress">-</strong>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span>City:</span>
+                                        <strong id="confirmPickupCity">-</strong>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span>Date & Time:</span>
+                                        <strong id="confirmPickupDateTime">-</strong>
+                                    </div>
+                                </div>
+
+                                <div class="confirmation-card">
+                                    <h3><i class="fas fa-map-marker-alt"></i> Delivery</h3>
+                                    <div class="detail-row">
+                                        <span>Address:</span>
+                                        <strong id="confirmDeliveryAddress">-</strong>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span>City:</span>
+                                        <strong id="confirmDeliveryCity">-</strong>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span>Type:</span>
+                                        <strong id="confirmDeliveryType">-</strong>
+                                    </div>
+                                </div>
+
+                                <div class="confirmation-card">
+                                    <h3><i class="fas fa-users"></i> Contacts</h3>
+                                    <div class="detail-row">
+                                        <span>Sender:</span>
+                                        <strong id="confirmSender">-</strong>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span>Phone:</span>
+                                        <strong id="confirmSenderPhone">-</strong>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span>Receiver:</span>
+                                        <strong id="confirmReceiver">-</strong>
+                                    </div>
+                                    <div class="detail-row">
+                                        <span>Phone:</span>
+                                        <strong id="confirmReceiverPhone">-</strong>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="price-summary">
+                                <h3>Price Summary</h3>
+                                <div class="price-row">
+                                    <span>Base Delivery Fee:</span>
+                                    <strong id="baseFee">₦0</strong>
+                                </div>
+                                <div class="price-row">
+                                    <span>Weight Charge:</span>
+                                    <strong id="weightCharge">₦0</strong>
+                                </div>
+                                <div class="price-row total">
+                                    <span>Total Amount:</span>
+                                    <strong id="totalAmount">₦0</strong>
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="button" class="btn btn-back" data-prev="3">
+                                    <i class="fas fa-arrow-left"></i> Back
+                                </button>
+                                <button type="submit" class="btn btn-submit">
+                                    <i class="fas fa-check-circle"></i> Confirm Booking
+                                </button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+                <!-- Sidebar - Booking Summary -->
+                <div class="booking-sidebar">
+                    <div class="sidebar-card">
+                        <h3><i class="fas fa-info-circle"></i> Quick Info</h3>
+                        <ul class="info-list">
+                            <li><i class="fas fa-check"></i> Real-time tracking</li>
+                            <li><i class="fas fa-check"></i> Secure packaging</li>
+                            <li><i class="fas fa-check"></i> Insurance covered</li>
+                            <li><i class="fas fa-check"></i> 24/7 support</li>
+                        </ul>
+                    </div>
+
+                    <div class="sidebar-card">
+                        <h3><i class="fas fa-headset"></i> Need Help?</h3>
+                        <p>Our support team is ready to assist you</p>
+                        <a href="tel:+2348001234567" class="contact-btn">
+                            <i class="fas fa-phone"></i> +234 800 123 4567
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 AF Logistics. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="booking.js"></script>
+</body>
+</html>

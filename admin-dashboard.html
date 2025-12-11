@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - AF Logistics</title>
+    <link rel="stylesheet" href="dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <div class="logo">
+                <i class="fas fa-truck-fast"></i>
+                <span>AF Logistics</span>
+            </div>
+            <button class="sidebar-toggle" id="sidebarToggle">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="user-profile">
+            <div class="user-avatar">
+                <i class="fas fa-user-shield"></i>
+            </div>
+            <div class="user-info">
+                <h3 id="userName">Admin</h3>
+                <span class="user-role" style="background: #FEE; color: #E91E63;">Administrator</span>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="#dashboard" class="nav-link active" data-section="dashboard">
+                <i class="fas fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="#all-bookings" class="nav-link" data-section="all-bookings">
+                <i class="fas fa-box"></i>
+                <span>All Bookings</span>
+            </a>
+            <a href="#users" class="nav-link" data-section="users">
+                <i class="fas fa-users"></i>
+                <span>Users Management</span>
+            </a>
+            <a href="#riders" class="nav-link" data-section="riders">
+                <i class="fas fa-motorcycle"></i>
+                <span>Riders</span>
+            </a>
+            <a href="#analytics" class="nav-link" data-section="analytics">
+                <i class="fas fa-chart-pie"></i>
+                <span>Analytics</span>
+            </a>
+            <a href="#profile" class="nav-link" data-section="profile">
+                <i class="fas fa-user"></i>
+                <span>Profile</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a href="index.html" class="nav-link">
+                <i class="fas fa-globe"></i>
+                <span>Visit Website</span>
+            </a>
+            <button class="btn-logout" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Top Bar -->
+        <header class="top-bar">
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <h1 class="page-title" id="pageTitle">Admin Dashboard</h1>
+            <div class="top-bar-actions">
+                <button class="btn-icon" title="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge">5</span>
+                </button>
+                <div class="user-menu">
+                    <button class="btn-icon">
+                        <i class="fas fa-user-shield"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Section -->
+        <section class="content-section active" id="dashboard">
+            <div class="section-header">
+                <h2>System Overview</h2>
+                <p>Complete overview of AF Logistics operations</p>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #E3F2FD;">
+                        <i class="fas fa-box" style="color: #2196F3;"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalBookings">0</h3>
+                        <p>Total Bookings</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #FFF3E0;">
+                        <i class="fas fa-clock" style="color: #FF9800;"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="pendingBookings">0</h3>
+                        <p>Pending Bookings</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #E8F5E9;">
+                        <i class="fas fa-check-circle" style="color: #4CAF50;"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="completedBookings">0</h3>
+                        <p>Completed</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #FCE4EC;">
+                        <i class="fas fa-naira-sign" style="color: #E91E63;"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalRevenue">₦0</h3>
+                        <p>Total Revenue</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #F3E5F5;">
+                        <i class="fas fa-users" style="color: #9C27B0;"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalCustomers">0</h3>
+                        <p>Customers</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #E0F2F1;">
+                        <i class="fas fa-motorcycle" style="color: #009688;"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="totalRiders">0</h3>
+                        <p>Active Riders</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="recent-bookings">
+                <div class="section-header">
+                    <h3>Recent Bookings</h3>
+                    <button class="btn-text" onclick="switchSection('all-bookings')">View All</button>
+                </div>
+                <div id="recentBookingsList" class="bookings-list">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- All Bookings Section -->
+        <section class="content-section" id="all-bookings">
+            <div class="section-header">
+                <h2>All Bookings</h2>
+                <p>Manage all delivery bookings across the platform</p>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-filter="all">All</button>
+                <button class="filter-tab" data-filter="Pending">Pending</button>
+                <button class="filter-tab" data-filter="Confirmed">Confirmed</button>
+                <button class="filter-tab" data-filter="In Transit">In Transit</button>
+                <button class="filter-tab" data-filter="Delivered">Delivered</button>
+            </div>
+
+            <!-- Bookings List -->
+            <div id="allBookingsList" class="bookings-grid">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Users Management Section -->
+        <section class="content-section" id="users">
+            <div class="section-header">
+                <h2>Users Management</h2>
+                <p>Manage all registered users</p>
+            </div>
+
+            <!-- User Type Tabs -->
+            <div class="filter-tabs">
+                <button class="filter-tab active" data-user-filter="all">All Users</button>
+                <button class="filter-tab" data-user-filter="customer">Customers</button>
+                <button class="filter-tab" data-user-filter="rider">Riders</button>
+                <button class="filter-tab" data-user-filter="admin">Admins</button>
+            </div>
+
+            <!-- Users List -->
+            <div id="usersList" class="bookings-grid">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Riders Section -->
+        <section class="content-section" id="riders">
+            <div class="section-header">
+                <h2>Riders Management</h2>
+                <p>Monitor and manage delivery riders</p>
+            </div>
+
+            <div id="ridersList" class="bookings-grid">
+                <!-- Will be populated by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Analytics Section -->
+        <section class="content-section" id="analytics">
+            <div class="section-header">
+                <h2>Analytics & Reports</h2>
+                <p>Detailed insights and performance metrics</p>
+            </div>
+
+            <!-- Analytics Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #E8F5E9;">
+                        <i class="fas fa-percentage" style="color: #4CAF50;"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="completionRate">0%</h3>
+                        <p>Completion Rate</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #E3F2FD;">
+                        <i class="fas fa-chart-line" style="color: #2196F3;"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="avgDeliveryTime">2.5</h3>
+                        <p>Avg. Delivery Days</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #FFF3E0;">
+                        <i class="fas fa-star" style="color: #FF9800;"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="customerRating">4.8</h3>
+                        <p>Customer Rating</p>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon" style="background: #F3E5F5;">
+                        <i class="fas fa-coins" style="color: #9C27B0;"></i>
+                    </div>
+                    <div class="stat-info">
+                        <h3 id="avgOrderValue">₦2,500</h3>
+                        <p>Avg. Order Value</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Delivery Type Breakdown -->
+            <div class="recent-bookings">
+                <h3>Delivery Type Distribution</h3>
+                <div id="deliveryTypeStats" class="stats-grid">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Profile Section -->
+        <section class="content-section" id="profile">
+            <div class="section-header">
+                <h2>Admin Profile</h2>
+                <p>Manage your administrator account</p>
+            </div>
+
+            <div class="profile-container">
+                <div class="profile-card">
+                    <div class="profile-header">
+                        <div class="profile-avatar-large">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <div class="profile-info">
+                            <h3 id="profileName">Admin User</h3>
+                            <span class="profile-email" id="profileEmail">admin@aflogistics.com</span>
+                            <span class="profile-badge" style="background: #FEE; color: #E91E63;">Administrator</span>
+                        </div>
+                    </div>
+
+                    <div class="profile-details">
+                        <div class="detail-item">
+                            <i class="fas fa-envelope"></i>
+                            <div>
+                                <span class="detail-label">Email</span>
+                                <strong id="detailEmail">admin@aflogistics.com</strong>
+                            </div>
+                        </div>
+
+                        <div class="detail-item">
+                            <i class="fas fa-phone"></i>
+                            <div>
+                                <span class="detail-label">Phone</span>
+                                <strong id="detailPhone">+234 800 000 0000</strong>
+                            </div>
+                        </div>
+
+                        <div class="detail-item">
+                            <i class="fas fa-calendar"></i>
+                            <div>
+                                <span class="detail-label">Member Since</span>
+                                <strong id="detailJoinDate">January 2024</strong>
+                            </div>
+                        </div>
+
+                        <div class="detail-item">
+                            <i class="fas fa-id-badge"></i>
+                            <div>
+                                <span class="detail-label">Admin ID</span>
+                                <strong id="detailAdminId">ADMIN_123456</strong>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="profile-actions">
+                        <button class="btn-secondary">
+                            <i class="fas fa-edit"></i> Edit Profile
+                        </button>
+                        <button class="btn-secondary">
+                            <i class="fas fa-key"></i> Change Password
+                        </button>
+                    </div>
+                </div>
+
+                <div class="profile-stats-card">
+                    <h3>System Statistics</h3>
+                    <div class="profile-stats-grid">
+                        <div class="profile-stat">
+                            <i class="fas fa-box"></i>
+                            <div>
+                                <strong id="profileTotalBookings">0</strong>
+                                <span>Total Bookings</span>
+                            </div>
+                        </div>
+                        <div class="profile-stat">
+                            <i class="fas fa-users"></i>
+                            <div>
+                                <strong id="profileTotalUsers">0</strong>
+                                <span>Total Users</span>
+                            </div>
+                        </div>
+                        <div class="profile-stat">
+                            <i class="fas fa-naira-sign"></i>
+                            <div>
+                                <strong id="profileRevenue">₦0</strong>
+                                <span>Total Revenue</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="admin-dashboard.js"></script>
+</body>
+</html>

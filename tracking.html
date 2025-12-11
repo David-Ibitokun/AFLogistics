@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Your Order - AF Logistics</title>
+    <link rel="stylesheet" href="tracking.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-wrapper">
+                <div class="logo">
+                    <i class="fas fa-truck-fast"></i>
+                    <span>AF Logistics</span>
+                </div>
+                <div class="nav-toggle" id="navToggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="booking.html">Book Now</a></li>
+                    <li><a href="tracking.html" class="active">Track Order</a></li>
+                    <li><a href="index.html#services">Services</a></li>
+                    <li><a href="index.html#about">About</a></li>
+                    <li><a href="index.html#contact">Contact</a></li>
+                    <li><a href="login.html" class="btn-login">Login</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <h1><i class="fas fa-location-dot"></i> Track Your Order</h1>
+            <p>Enter your tracking ID to see real-time updates</p>
+        </div>
+    </section>
+
+    <!-- Tracking Section -->
+    <section class="tracking-section">
+        <div class="container">
+            
+            <!-- Search Box -->
+            <div class="search-container">
+                <form id="trackingForm" class="tracking-form">
+                    <div class="search-input-wrapper">
+                        <i class="fas fa-search"></i>
+                        <input 
+                            type="text" 
+                            id="trackingInput" 
+                            placeholder="Enter your tracking ID (e.g., AFL12345678ABCD)" 
+                            required
+                        >
+                        <button type="submit" class="btn-track">
+                            <i class="fas fa-location-crosshairs"></i> Track Package
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loadingState" class="loading-state" style="display: none;">
+                <div class="spinner"></div>
+                <p>Searching for your package...</p>
+            </div>
+
+            <!-- Error State -->
+            <div id="errorState" class="error-state" style="display: none;">
+                <div class="error-icon">
+                    <i class="fas fa-exclamation-circle"></i>
+                </div>
+                <h3>Package Not Found</h3>
+                <p>We couldn't find a package with this tracking ID.</p>
+                <p class="error-hint">Please check your tracking ID and try again.</p>
+                <button class="btn btn-primary" onclick="resetTracking()">
+                    <i class="fas fa-search"></i> Try Again
+                </button>
+            </div>
+
+            <!-- Tracking Results -->
+            <div id="trackingResults" class="tracking-results" style="display: none;">
+                
+                <!-- Package Status Card -->
+                <div class="status-card">
+                    <div class="status-header">
+                        <div class="status-badge" id="statusBadge">
+                            <i class="fas fa-box"></i>
+                            <span id="statusText">Pending</span>
+                        </div>
+                        <div class="tracking-id-display">
+                            <span>Tracking ID:</span>
+                            <strong id="displayTrackingId">-</strong>
+                        </div>
+                    </div>
+
+                    <div class="delivery-estimate">
+                        <i class="fas fa-clock"></i>
+                        <div>
+                            <strong>Estimated Delivery</strong>
+                            <p id="estimatedDelivery">Calculating...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Timeline -->
+                <div class="timeline-card">
+                    <h2><i class="fas fa-route"></i> Delivery Progress</h2>
+                    
+                    <div class="timeline">
+                        <div class="timeline-item" data-status="pending">
+                            <div class="timeline-icon">
+                                <i class="fas fa-box"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <h3>Order Placed</h3>
+                                <p>Your order has been received and is being processed</p>
+                                <span class="timeline-time" id="timelinePending">-</span>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item" data-status="confirmed">
+                            <div class="timeline-icon">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <h3>Order Confirmed</h3>
+                                <p>Your package has been confirmed and assigned to a rider</p>
+                                <span class="timeline-time" id="timelineConfirmed">-</span>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item" data-status="picked-up">
+                            <div class="timeline-icon">
+                                <i class="fas fa-hand-holding-box"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <h3>Picked Up</h3>
+                                <p>Package has been picked up from sender</p>
+                                <span class="timeline-time" id="timelinePickedUp">-</span>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item" data-status="in-transit">
+                            <div class="timeline-icon">
+                                <i class="fas fa-truck-fast"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <h3>In Transit</h3>
+                                <p>Your package is on the way to its destination</p>
+                                <span class="timeline-time" id="timelineInTransit">-</span>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item" data-status="out-for-delivery">
+                            <div class="timeline-icon">
+                                <i class="fas fa-motorcycle"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <h3>Out for Delivery</h3>
+                                <p>Package is out for delivery and will arrive soon</p>
+                                <span class="timeline-time" id="timelineOutForDelivery">-</span>
+                            </div>
+                        </div>
+
+                        <div class="timeline-item" data-status="delivered">
+                            <div class="timeline-icon">
+                                <i class="fas fa-circle-check"></i>
+                            </div>
+                            <div class="timeline-content">
+                                <h3>Delivered</h3>
+                                <p>Package has been successfully delivered</p>
+                                <span class="timeline-time" id="timelineDelivered">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Package Details Grid -->
+                <div class="details-grid">
+                    
+                    <!-- Package Information -->
+                    <div class="detail-card">
+                        <h3><i class="fas fa-box-open"></i> Package Information</h3>
+                        <div class="detail-row">
+                            <span>Package Type:</span>
+                            <strong id="detailPackageType">-</strong>
+                        </div>
+                        <div class="detail-row">
+                            <span>Weight:</span>
+                            <strong id="detailWeight">-</strong>
+                        </div>
+                        <div class="detail-row">
+                            <span>Size:</span>
+                            <strong id="detailSize">-</strong>
+                        </div>
+                        <div class="detail-row">
+                            <span>Delivery Type:</span>
+                            <strong id="detailDeliveryType">-</strong>
+                        </div>
+                    </div>
+
+                    <!-- Sender Information -->
+                    <div class="detail-card">
+                        <h3><i class="fas fa-user"></i> Sender Information</h3>
+                        <div class="detail-row">
+                            <span>Name:</span>
+                            <strong id="detailSenderName">-</strong>
+                        </div>
+                        <div class="detail-row">
+                            <span>Phone:</span>
+                            <strong id="detailSenderPhone">-</strong>
+                        </div>
+                        <div class="detail-row">
+                            <span>Location:</span>
+                            <strong id="detailSenderLocation">-</strong>
+                        </div>
+                    </div>
+
+                    <!-- Receiver Information -->
+                    <div class="detail-card">
+                        <h3><i class="fas fa-user-check"></i> Receiver Information</h3>
+                        <div class="detail-row">
+                            <span>Name:</span>
+                            <strong id="detailReceiverName">-</strong>
+                        </div>
+                        <div class="detail-row">
+                            <span>Phone:</span>
+                            <strong id="detailReceiverPhone">-</strong>
+                        </div>
+                        <div class="detail-row">
+                            <span>Location:</span>
+                            <strong id="detailReceiverLocation">-</strong>
+                        </div>
+                    </div>
+
+                    <!-- Delivery Timeline -->
+                    <div class="detail-card">
+                        <h3><i class="fas fa-calendar-days"></i> Delivery Timeline</h3>
+                        <div class="detail-row">
+                            <span>Pickup Date:</span>
+                            <strong id="detailPickupDate">-</strong>
+                        </div>
+                        <div class="detail-row">
+                            <span>Booked On:</span>
+                            <strong id="detailBookedDate">-</strong>
+                        </div>
+                        <div class="detail-row">
+                            <span>Last Updated:</span>
+                            <strong id="detailLastUpdated">-</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Status History -->
+                <div class="history-card">
+                    <h2><i class="fas fa-history"></i> Status History</h2>
+                    <div id="statusHistory" class="status-history">
+                        <!-- Will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="tracking-actions">
+                    <button class="btn btn-primary" onclick="window.print()">
+                        <i class="fas fa-print"></i> Print Details
+                    </button>
+                    <button class="btn btn-secondary" onclick="resetTracking()">
+                        <i class="fas fa-search"></i> Track Another
+                    </button>
+                    <a href="index.html#contact" class="btn btn-secondary">
+                        <i class="fas fa-headset"></i> Contact Support
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Quick Tips Section -->
+    <section class="tips-section">
+        <div class="container">
+            <h2>Tracking Tips</h2>
+            <div class="tips-grid">
+                <div class="tip-card">
+                    <i class="fas fa-barcode"></i>
+                    <h3>Find Your Tracking ID</h3>
+                    <p>Your tracking ID is provided in your booking confirmation email and SMS.</p>
+                </div>
+                <div class="tip-card">
+                    <i class="fas fa-clock"></i>
+                    <h3>Real-time Updates</h3>
+                    <p>Check back regularly for the latest updates on your package status.</p>
+                </div>
+                <div class="tip-card">
+                    <i class="fas fa-bell"></i>
+                    <h3>Stay Informed</h3>
+                    <p>Enable notifications to receive instant updates about your delivery.</p>
+                </div>
+                <div class="tip-card">
+                    <i class="fas fa-phone"></i>
+                    <h3>Need Help?</h3>
+                    <p>Contact our 24/7 support team if you have any questions or concerns.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom">
+                <p>&copy; 2025 AF Logistics. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="tracking.js"></script>
+</body>
+</html>

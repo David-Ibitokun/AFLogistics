@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - AF Logistics</title>
+    <link rel="stylesheet" href="auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Background Pattern -->
+    <div class="auth-background"></div>
+
+    <!-- Back to Home Button -->
+    <a href="index.html" class="back-home">
+        <i class="fas fa-arrow-left"></i> Back to Home
+    </a>
+
+    <!-- Auth Container -->
+    <div class="auth-container">
+        <div class="auth-wrapper">
+            
+            <!-- Left Side - Branding -->
+            <div class="auth-brand">
+                <div class="brand-content">
+                    <div class="brand-logo">
+                        <i class="fas fa-truck-fast"></i>
+                    </div>
+                    <h1>AF Logistics</h1>
+                    <p class="brand-tagline">Join Thousands of Satisfied Customers</p>
+                    
+                    <div class="brand-features">
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Easy Registration</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Instant Account Activation</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Secure & Encrypted</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Free Account Setup</span>
+                        </div>
+                    </div>
+
+                    <div class="testimonial">
+                        <p class="testimonial-text">"AF Logistics has transformed how we handle deliveries. Fast, reliable, and professional!"</p>
+                        <div class="testimonial-author">
+                            <strong>- Sarah Johnson</strong>
+                            <span>Business Owner</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side - Register Form -->
+            <div class="auth-form-container">
+                <div class="auth-form-content">
+                    
+                    <!-- Register Form -->
+                    <div id="registerForm" class="auth-form active">
+                        <div class="form-header">
+                            <h2>Create Account</h2>
+                            <p>Start your delivery journey today</p>
+                        </div>
+
+                        <form id="registerFormElement">
+                            
+                            <!-- Account Type Selection -->
+                            <div class="form-group">
+                                <label>
+                                    <i class="fas fa-user-tag"></i> Account Type
+                                </label>
+                                <div class="account-type-selector">
+                                    <label class="account-type-option">
+                                        <input type="radio" name="accountType" value="customer" checked>
+                                        <div class="account-type-card">
+                                            <i class="fas fa-user"></i>
+                                            <strong>Customer</strong>
+                                            <span>Book & track deliveries</span>
+                                        </div>
+                                    </label>
+                                    <label class="account-type-option">
+                                        <input type="radio" name="accountType" value="rider">
+                                        <div class="account-type-card">
+                                            <i class="fas fa-motorcycle"></i>
+                                            <strong>Rider</strong>
+                                            <span>Deliver packages</span>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Personal Information -->
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="registerName">
+                                        <i class="fas fa-user"></i> Full Name
+                                    </label>
+                                    <input 
+                                        type="text" 
+                                        id="registerName" 
+                                        placeholder="Enter your full name"
+                                        required
+                                    >
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="registerPhone">
+                                        <i class="fas fa-phone"></i> Phone Number
+                                    </label>
+                                    <input 
+                                        type="tel" 
+                                        id="registerPhone" 
+                                        placeholder="+234 800 000 0000"
+                                        required
+                                    >
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="registerEmail">
+                                    <i class="fas fa-envelope"></i> Email Address
+                                </label>
+                                <input 
+                                    type="email" 
+                                    id="registerEmail" 
+                                    placeholder="Enter your email"
+                                    required
+                                >
+                            </div>
+
+                            <!-- Password Fields -->
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="registerPassword">
+                                        <i class="fas fa-lock"></i> Password
+                                    </label>
+                                    <div class="password-input">
+                                        <input 
+                                            type="password" 
+                                            id="registerPassword" 
+                                            placeholder="Create password"
+                                            required
+                                        >
+                                        <button type="button" class="toggle-password" onclick="togglePassword('registerPassword')">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                    <div class="password-strength" id="passwordStrength"></div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="confirmPassword">
+                                        <i class="fas fa-lock"></i> Confirm Password
+                                    </label>
+                                    <div class="password-input">
+                                        <input 
+                                            type="password" 
+                                            id="confirmPassword" 
+                                            placeholder="Confirm password"
+                                            required
+                                        >
+                                        <button type="button" class="toggle-password" onclick="togglePassword('confirmPassword')">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Address (Only for Riders) -->
+                            <div id="riderFields" style="display: none;">
+                                <div class="form-group">
+                                    <label for="registerAddress">
+                                        <i class="fas fa-location-dot"></i> Address
+                                    </label>
+                                    <input 
+                                        type="text" 
+                                        id="registerAddress" 
+                                        placeholder="Enter your address"
+                                    >
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="registerCity">
+                                            <i class="fas fa-city"></i> City
+                                        </label>
+                                        <input 
+                                            type="text" 
+                                            id="registerCity" 
+                                            placeholder="Enter city"
+                                        >
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="registerState">
+                                            <i class="fas fa-map"></i> State
+                                        </label>
+                                        <input 
+                                            type="text" 
+                                            id="registerState" 
+                                            placeholder="Enter state"
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Terms and Conditions -->
+                            <div class="form-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="agreeTerms" required>
+                                    <span>I agree to the <a href="#" class="link">Terms & Conditions</a> and <a href="#" class="link">Privacy Policy</a></span>
+                                </label>
+                            </div>
+
+                            <button type="submit" class="btn-submit">
+                                <i class="fas fa-user-plus"></i> Create Account
+                            </button>
+                        </form>
+
+                        <div class="form-footer">
+                            <p>Already have an account? 
+                                <a href="login.html" class="switch-form">Sign In</a>
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="auth.js"></script>
+</body>
+</html>
