@@ -185,7 +185,7 @@ async function seedBookings() {
                 deliveryType: 'economy',
                 senderName: customer.name,
                 senderPhone: '+234 801 234 5678',
-                sender Email: customer.email,
+                senderEmail: customer.email,
                 receiverName: 'Mike Johnson',
                 receiverPhone: '+234 804 567 8901',
                 price: 1200,
