@@ -408,34 +408,40 @@ document.addEventListener('DOMContentLoaded', function() {
     // UPDATE DELIVERY STATUS
     // ==========================================
     window.updateDeliveryStatus = async function(trackingId, newStatus) {
-        const bookings = await fetchBookings({ trackingId });
-        const booking = bookings.find(b => b.trackingId === trackingId);
+        try {
+            const bookings = await fetchBookings({ trackingId });
+            const booking = bookings.find(b => b.trackingId === trackingId);
 
-        if (!booking) {
-            showNotification('Booking not found', 'error');
-            return;
+            if (!booking) {
+                showNotification('Booking not found', 'error');
+                return;
+            }
+
+            // Update via API
+            const response = await fetch(`/api/bookings?id=${booking.id}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    status: newStatus,
+                    statusNote: `Updated by rider ${currentUser.name}`
+                })
+            });
+
+            if (response.ok) {
+                showNotification(`Status updated to: ${newStatus}`, 'success');
+                
+                // Refresh all lists
+                loadDashboardStats();
+                loadActiveDeliveries();
+                loadAssignedDeliveries(currentFilter);
+                loadDeliveryHistory();
+            } else {
+                showNotification('Failed to update status', 'error');
+            }
+        } catch (error) {
+            console.error('Error updating status:', error);
+            showNotification('Error updating status', 'error');
         }
-
-        // Update status
-        booking.status = newStatus;
-        booking.updatedAt = new Date().toISOString();
-        booking.statusHistory.push({
-            status: newStatus,
-            timestamp: new Date().toISOString(),
-            note: `Updated by rider ${currentUser.name}`
-        });
-
-        // Save to localStorage
-        localStorage.setItem('bookings', JSON.stringify(bookings));
-
-        // Show success message
-        showNotification(`Status updated to: ${newStatus}`, 'success');
-
-        // Refresh all lists
-        loadDashboardStats();
-        loadActiveDeliveries();
-        loadAssignedDeliveries(currentFilter);
-        loadDeliveryHistory();
     };
 
     // ==========================================
