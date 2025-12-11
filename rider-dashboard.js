@@ -75,28 +75,28 @@ document.addEventListener('DOMContentLoaded', function() {
     // ==========================================
     // AUTO-ASSIGN DELIVERIES TO RIDER
     // ==========================================
-    function autoAssignDeliveries() {
+    async function autoAssignDeliveries() {
         const bookings = await fetchBookings();
-        let updated = false;
-
-        bookings.forEach(booking => {
-            // Auto-assign confirmed bookings that don't have a rider
+        
+        for (const booking of bookings) {
+            // Auto-assign pending bookings that don't have a rider
             if (booking.status === 'Pending' && !booking.riderId) {
-                booking.status = 'Confirmed';
-                booking.riderId = currentUser.id;
-                booking.riderName = currentUser.name;
-                booking.updatedAt = new Date().toISOString();
-                booking.statusHistory.push({
-                    status: 'Confirmed',
-                    timestamp: new Date().toISOString(),
-                    note: `Assigned to rider ${currentUser.name}`
-                });
-                updated = true;
+                try {
+                    // Update booking via API
+                    await fetch(`/api/bookings?id=${booking.id}`, {
+                        method: 'PATCH',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            status: 'Confirmed',
+                            riderId: currentUser.id,
+                            riderName: currentUser.name,
+                            statusNote: `Assigned to rider ${currentUser.name}`
+                        })
+                    });
+                } catch (error) {
+                    console.error('Error auto-assigning booking:', error);
+                }
             }
-        });
-
-        if (updated) {
-            localStorage.setItem('bookings', JSON.stringify(bookings));
         }
     }
 
@@ -315,8 +315,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // ==========================================
     // LOAD DELIVERY HISTORY
     // ==========================================
-    function loadDeliveryHistory() {
-        const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+    async function loadDeliveryHistory() {
+        const bookings = await fetchBookings({ riderId: currentUser.id });
         const completedDeliveries = bookings.filter(b => 
             b.riderId === currentUser.id && 
             b.status === 'Delivered'
