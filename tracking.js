@@ -59,6 +59,24 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // Helper function to fetch bookings from API
+    async function fetchBookings(filters = {}) {
+        try {
+            const params = new URLSearchParams(filters);
+            const url = `/api/bookings${params.toString() ? '?' + params.toString() : ''}`;
+            const res = await fetch(url);
+            if (res.ok) {
+                return await res.json();
+            }
+            console.error('Failed to fetch bookings');
+            return [];
+        } catch (error) {
+            console.error('Error fetching bookings:', error);
+            return [];
+        }
+    }
+
+
     // ==========================================
     // TRACK PACKAGE FUNCTION
     // ==========================================
@@ -453,7 +471,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Refresh every 30 seconds for active deliveries
-        refreshInterval = setInterval(() => {
+        refreshInterval = setInterval(async () => {
             const bookings = await fetchBookings();
             const booking = bookings.find(b => b.trackingId === trackingId);
             
@@ -467,74 +485,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 30000); // 30 seconds
     }
 
-    console.log('AF Logistics Tracking Page Initialized Successfully! 📍');
-});
-        
-        // Only create samples if no bookings exist
-        if (bookings.length === 0) {
-            const sampleBookings = [
-                {
-                    trackingId: 'AFL12345678ABCD',
-                    customerId: 'customer_001',
-                    customerName: 'Sample User',
-                    packageType: 'parcel',
-                    packageWeight: '2.5',
-                    packageSize: 'medium',
-                    packageValue: '50000',
-                    packageDescription: 'Electronics - Smartphone',
-                    pickupAddress: '123 Lagos Street',
-                    pickupCity: 'Lagos',
-                    pickupState: 'Lagos',
-                    pickupDate: new Date().toISOString().split('T')[0],
-                    pickupTime: 'morning',
-                    deliveryAddress: '456 Abuja Avenue',
-                    deliveryCity: 'Abuja',
-                    deliveryState: 'FCT',
-                    deliveryType: 'express',
-                    senderName: 'John Doe',
-                    senderPhone: '+234 800 111 2222',
-                    senderEmail: 'john@example.com',
-                    receiverName: 'Jane Smith',
-                    receiverPhone: '+234 800 333 4444',
-                    receiverEmail: 'jane@example.com',
-                    specialInstructions: 'Handle with care',
-                    status: 'In Transit',
-                    price: 3500,
-                    createdAt: new Date(Date.now() - 86400000).toISOString(),
-                    updatedAt: new Date().toISOString(),
-                    statusHistory: [
-                        {
-                            status: 'Pending',
-                            timestamp: new Date(Date.now() - 86400000).toISOString(),
-                            note: 'Order placed'
-                        },
-                        {
-                            status: 'Confirmed',
-                            timestamp: new Date(Date.now() - 82800000).toISOString(),
-                            note: 'Order confirmed and assigned to rider'
-                        },
-                        {
-                            status: 'Picked Up',
-                            timestamp: new Date(Date.now() - 79200000).toISOString(),
-                            note: 'Package picked up from sender'
-                        },
-                        {
-                            status: 'In Transit',
-                            timestamp: new Date(Date.now() - 3600000).toISOString(),
-                            note: 'Package is on the way'
-                        }
-                    ]
-                }
-            ];
-            
-            localStorage.setItem('bookings', JSON.stringify(sampleBookings));
-            console.log('Sample booking created with tracking ID: AFL12345678ABCD');
-        }
-    }
-
-    // Create sample bookings for demo purposes
-    createSampleBookings();
 
     console.log('AF Logistics Tracking Page Initialized Successfully! 📍');
-    console.log('Try tracking ID: AFL12345678ABCD');
 });
