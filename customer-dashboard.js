@@ -43,13 +43,30 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Helper function to fetch bookings from API
+    async function fetchBookings(filters = {}) {
+        try {
+            const params = new URLSearchParams(filters);
+            const url = `/api/bookings${params.toString() ? '?' + params.toString() : ''}`;
+            const res = await fetch(url);
+            if (res.ok) {
+                return await res.json();
+            }
+            console.error('Failed to fetch bookings');
+            return [];
+        } catch (error) {
+            console.error('Error fetching bookings:', error);
+            return [];
+        }
+    }
+
     initializeUI();
 
     // ==========================================
     // LOAD DASHBOARD STATISTICS
     // ==========================================
-    function loadDashboardStats() {
-        const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+    async function loadDashboardStats() {
+        const bookings = await fetchBookings({ customerId: currentUser.id });
         const userBookings = bookings.filter(b => b.customerId === currentUser.id);
 
         // Calculate statistics
@@ -79,8 +96,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // ==========================================
     // LOAD RECENT BOOKINGS
     // ==========================================
-    function loadRecentBookings() {
-        const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+    async function loadRecentBookings() {
+        const bookings = await fetchBookings({ customerId: currentUser.id });
         const userBookings = bookings.filter(b => b.customerId === currentUser.id);
         
         // Sort by date (newest first) and take top 3
@@ -151,9 +168,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // ==========================================
     let currentFilter = 'all';
 
-    function loadAllBookings(filter = 'all') {
+    async function loadAllBookings(filter = 'all') {
         currentFilter = filter;
-        const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+        const bookings = await fetchBookings({ customerId: currentUser.id });
         let userBookings = bookings.filter(b => b.customerId === currentUser.id);
 
         // Apply filter
@@ -341,8 +358,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // ==========================================
     // VIEW BOOKING DETAILS FUNCTION
     // ==========================================
-    window.viewBookingDetails = function(trackingId) {
-        const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+    window.viewBookingDetails = async function(trackingId) {
+        const bookings = await fetchBookings({ trackingId });
         const booking = bookings.find(b => b.trackingId === trackingId);
 
         if (!booking) {

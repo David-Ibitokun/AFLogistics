@@ -323,13 +323,27 @@ document.addEventListener('DOMContentLoaded', function() {
             ]
         };
 
-        // Save booking to localStorage
-        const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
-        bookings.push(booking);
-        localStorage.setItem('bookings', JSON.stringify(bookings));
+        // Save booking to database via API
+        try {
+            const response = await fetch('/api/bookings', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(booking)
+            });
 
-        // Show success message with tracking ID
-        showSuccessModal(trackingId);
+            if (!response.ok) {
+                const error = await response.json();
+                throw new Error(error.error || 'Failed to create booking');
+            }
+
+            const savedBooking = await response.json();
+            
+            // Show success message with tracking ID
+            showSuccessModal(savedBooking.trackingId);
+        } catch (error) {
+            console.error('Booking error:', error);
+            showNotification(error.message || 'Failed to create booking. Please try again.', 'error');
+        }
     });
 
     // ==========================================

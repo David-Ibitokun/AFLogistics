@@ -43,6 +43,23 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Helper function to fetch bookings from API
+    async function fetchBookings(filters = {}) {
+        try {
+            const params = new URLSearchParams(filters);
+            const url = `/api/bookings${params.toString() ? '?' + params.toString() : ''}`;
+            const res = await fetch(url);
+            if (res.ok) {
+                return await res.json();
+            }
+            console.error('Failed to fetch bookings');
+            return [];
+        } catch (error) {
+            console.error('Error fetching bookings:', error);
+            return [];
+        }
+    }
+
     initializeUI();
 
     // ==========================================
@@ -52,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // LOAD DASHBOARD STATISTICS
     // ==========================================
     async function loadDashboardStats() {
-        const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+        const bookings = await fetchBookings();
         let users = [];
         
         try {
@@ -97,8 +114,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // ==========================================
     // LOAD ANALYTICS
     // ==========================================
-    function loadAnalytics() {
-        const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+    async function loadAnalytics() {
+        const bookings = await fetchBookings();
 
         // Completion rate
         const completedBookings = bookings.filter(b => b.status === 'Delivered').length;
@@ -157,8 +174,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // ==========================================
     // LOAD RECENT BOOKINGS
     // ==========================================
-    function loadRecentBookings() {
-        const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+    async function loadRecentBookings() {
+        const bookings = await fetchBookings();
         const recentBookings = bookings
             .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
             .slice(0, 5);
@@ -230,9 +247,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // ==========================================
     let currentFilter = 'all';
 
-    function loadAllBookings(filter = 'all') {
+    async function loadAllBookings(filter = 'all') {
         currentFilter = filter;
-        const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+        const bookings = await fetchBookings();
         let filteredBookings = [...bookings];
 
         if (filter !== 'all') {
@@ -415,7 +432,7 @@ document.addEventListener('DOMContentLoaded', function() {
             users = JSON.parse(localStorage.getItem('users') || '[]');
         }
 
-        const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+        const bookings = await fetchBookings();
         const riders = users.filter(u => u.role === 'rider');
 
         const ridersList = document.getElementById('ridersList');
