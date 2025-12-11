@@ -380,7 +380,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         };
                         
                         console.log('   Redirecting to:', dashboardUrls[user.role]);
-                        window.location.href = dashboardUrls[user.role] || 'index.html';
+                        
+                        try {
+                            window.location.href = dashboardUrls[user.role] || 'index.html';
+                        } catch (redirectError) {
+                            // Ignore redirect errors
+                        }
                     }, 1000);
                 } else {
                     const err = await res.json();
@@ -389,7 +394,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             } catch (error) {
                 console.error('Login error:', error);
-                showNotification('Login failed. Server unavailable.', 'error');
+                // Only show error if we're still on the login page
+                if (window.location.pathname.includes('login.html')) {
+                    showNotification('Login failed. Server unavailable.', 'error');
+                }
             }
         });
     }
