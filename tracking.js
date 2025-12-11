@@ -62,13 +62,13 @@ document.addEventListener('DOMContentLoaded', function() {
     // ==========================================
     // TRACK PACKAGE FUNCTION
     // ==========================================
-    function trackPackage(trackingId) {
+    async function trackPackage(trackingId) {
         // Show loading state
         showLoadingState();
         
         // Simulate API delay for better UX
-        setTimeout(() => {
-            // Get bookings from localStorage
+        setTimeout(async () => {
+            // Get bookings from API
             const bookings = await fetchBookings({ trackingId });
             
             // Find booking by tracking ID
@@ -467,11 +467,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 30000); // 30 seconds
     }
 
-    // ==========================================
-    // CREATE SAMPLE BOOKINGS FOR TESTING
-    // ==========================================
-    function createSampleBookings() {
-        const bookings = await fetchBookings();
+    console.log('AF Logistics Tracking Page Initialized Successfully! 📍');
+});
         
         // Only create samples if no bookings exist
         if (bookings.length === 0) {
