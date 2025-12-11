@@ -374,17 +374,24 @@ document.addEventListener('DOMContentLoaded', function() {
                     showNotification('Login successful! Redirecting...', 'success');
                     
                     // Initialize demo bookings if needed
-                    initializeDemoBookings();
+                    try {
+                        initializeDemoBookings();
+                    } catch (bookingError) {
+                        console.log('Demo bookings initialization skipped:', bookingError);
+                    }
 
+                    const dashboardUrls = {
+                        'admin': 'admin-dashboard.html',
+                        'customer': 'customer-dashboard.html',
+                        'rider': 'rider-dashboard.html'
+                    };
+                    
+                    const targetUrl = dashboardUrls[user.role] || 'index.html';
+                    console.log('   Redirecting to:', targetUrl);
+                    
                     setTimeout(() => {
-                        const dashboardUrls = {
-                            'admin': 'admin-dashboard.html',
-                            'customer': 'customer-dashboard.html',
-                            'rider': 'rider-dashboard.html'
-                        };
-                        
-                        console.log('   Redirecting to:', dashboardUrls[user.role]);
-                        window.location.href = dashboardUrls[user.role] || 'index.html';
+                        console.log('   Executing redirect now...');
+                        window.location.href = targetUrl;
                     }, 1000);
                 } else {
                     const err = await res.json();
