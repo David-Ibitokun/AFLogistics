@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register - AF Logistics</title>
+    <link rel="icon" type="image/png" href="favicon.png">
     <link rel="stylesheet" href="auth.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
     <!-- Background Pattern -->
     <div class="auth-background"></div>
@@ -19,7 +22,7 @@
     <!-- Auth Container -->
     <div class="auth-container">
         <div class="auth-wrapper">
-            
+
             <!-- Left Side - Branding -->
             <div class="auth-brand">
                 <div class="brand-content">
@@ -28,7 +31,7 @@
                     </div>
                     <h1>AF Logistics</h1>
                     <p class="brand-tagline">Join Thousands of Satisfied Customers</p>
-                    
+
                     <div class="brand-features">
                         <div class="feature-item">
                             <i class="fas fa-check-circle"></i>
@@ -49,7 +52,8 @@
                     </div>
 
                     <div class="testimonial">
-                        <p class="testimonial-text">"AF Logistics has transformed how we handle deliveries. Fast, reliable, and professional!"</p>
+                        <p class="testimonial-text">"AF Logistics has transformed how we handle deliveries. Fast,
+                            reliable, and professional!"</p>
                         <div class="testimonial-author">
                             <strong>- Sarah Johnson</strong>
                             <span>Business Owner</span>
@@ -61,7 +65,7 @@
             <!-- Right Side - Register Form -->
             <div class="auth-form-container">
                 <div class="auth-form-content">
-                    
+
                     <!-- Register Form -->
                     <div id="registerForm" class="auth-form active">
                         <div class="form-header">
@@ -70,7 +74,7 @@
                         </div>
 
                         <form id="registerFormElement">
-                            
+
                             <!-- Account Type Selection -->
                             <div class="form-group">
                                 <label>
@@ -102,24 +106,14 @@
                                     <label for="registerName">
                                         <i class="fas fa-user"></i> Full Name
                                     </label>
-                                    <input 
-                                        type="text" 
-                                        id="registerName" 
-                                        placeholder="Enter your full name"
-                                        required
-                                    >
+                                    <input type="text" id="registerName" placeholder="Enter your full name" required>
                                 </div>
 
                                 <div class="form-group">
                                     <label for="registerPhone">
                                         <i class="fas fa-phone"></i> Phone Number
                                     </label>
-                                    <input 
-                                        type="tel" 
-                                        id="registerPhone" 
-                                        placeholder="+234 800 000 0000"
-                                        required
-                                    >
+                                    <input type="tel" id="registerPhone" placeholder="+234 800 000 0000" required>
                                 </div>
                             </div>
 
@@ -127,12 +121,7 @@
                                 <label for="registerEmail">
                                     <i class="fas fa-envelope"></i> Email Address
                                 </label>
-                                <input 
-                                    type="email" 
-                                    id="registerEmail" 
-                                    placeholder="Enter your email"
-                                    required
-                                >
+                                <input type="email" id="registerEmail" placeholder="Enter your email" required>
                             </div>
 
                             <!-- Password Fields -->
@@ -142,13 +131,10 @@
                                         <i class="fas fa-lock"></i> Password
                                     </label>
                                     <div class="password-input">
-                                        <input 
-                                            type="password" 
-                                            id="registerPassword" 
-                                            placeholder="Create password"
-                                            required
-                                        >
-                                        <button type="button" class="toggle-password" onclick="togglePassword('registerPassword')">
+                                        <input type="password" id="registerPassword" placeholder="Create password"
+                                            required>
+                                        <button type="button" class="toggle-password"
+                                            onclick="togglePassword('registerPassword')">
                                             <i class="fas fa-eye"></i>
                                         </button>
                                     </div>
@@ -160,13 +146,10 @@
                                         <i class="fas fa-lock"></i> Confirm Password
                                     </label>
                                     <div class="password-input">
-                                        <input 
-                                            type="password" 
-                                            id="confirmPassword" 
-                                            placeholder="Confirm password"
-                                            required
-                                        >
-                                        <button type="button" class="toggle-password" onclick="togglePassword('confirmPassword')">
+                                        <input type="password" id="confirmPassword" placeholder="Confirm password"
+                                            required>
+                                        <button type="button" class="toggle-password"
+                                            onclick="togglePassword('confirmPassword')">
                                             <i class="fas fa-eye"></i>
                                         </button>
                                     </div>
@@ -179,11 +162,7 @@
                                     <label for="registerAddress">
                                         <i class="fas fa-location-dot"></i> Address
                                     </label>
-                                    <input 
-                                        type="text" 
-                                        id="registerAddress" 
-                                        placeholder="Enter your address"
-                                    >
+                                    <input type="text" id="registerAddress" placeholder="Enter your address">
                                 </div>
 
                                 <div class="form-row">
@@ -191,22 +170,14 @@
                                         <label for="registerCity">
                                             <i class="fas fa-city"></i> City
                                         </label>
-                                        <input 
-                                            type="text" 
-                                            id="registerCity" 
-                                            placeholder="Enter city"
-                                        >
+                                        <input type="text" id="registerCity" placeholder="Enter city">
                                     </div>
 
                                     <div class="form-group">
                                         <label for="registerState">
                                             <i class="fas fa-map"></i> State
                                         </label>
-                                        <input 
-                                            type="text" 
-                                            id="registerState" 
-                                            placeholder="Enter state"
-                                        >
+                                        <input type="text" id="registerState" placeholder="Enter state">
                                     </div>
                                 </div>
                             </div>
@@ -215,7 +186,8 @@
                             <div class="form-group">
                                 <label class="checkbox-label">
                                     <input type="checkbox" id="agreeTerms" required>
-                                    <span>I agree to the <a href="#" class="link">Terms & Conditions</a> and <a href="#" class="link">Privacy Policy</a></span>
+                                    <span>I agree to the <a href="#" class="link">Terms & Conditions</a> and <a href="#"
+                                            class="link">Privacy Policy</a></span>
                                 </label>
                             </div>
 
@@ -225,7 +197,7 @@
                         </form>
 
                         <div class="form-footer">
-                            <p>Already have an account? 
+                            <p>Already have an account?
                                 <a href="login.html" class="switch-form">Sign In</a>
                             </p>
                         </div>
@@ -239,4 +211,5 @@
 
     <script src="auth.js"></script>
 </body>
+
 </html>

@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Track Your Order - AF Logistics</title>
+    <link rel="icon" type="image/png" href="favicon.png">
     <link rel="stylesheet" href="tracking.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
+
 <body>
     <!-- Navigation -->
     <nav class="navbar">
@@ -45,18 +48,14 @@
     <!-- Tracking Section -->
     <section class="tracking-section">
         <div class="container">
-            
+
             <!-- Search Box -->
             <div class="search-container">
                 <form id="trackingForm" class="tracking-form">
                     <div class="search-input-wrapper">
                         <i class="fas fa-search"></i>
-                        <input 
-                            type="text" 
-                            id="trackingInput" 
-                            placeholder="Enter your tracking ID (e.g., AFL12345678ABCD)" 
-                            required
-                        >
+                        <input type="text" id="trackingInput"
+                            placeholder="Enter your tracking ID (e.g., AFL12345678ABCD)" required>
                         <button type="submit" class="btn-track">
                             <i class="fas fa-location-crosshairs"></i> Track Package
                         </button>
@@ -85,7 +84,7 @@
 
             <!-- Tracking Results -->
             <div id="trackingResults" class="tracking-results" style="display: none;">
-                
+
                 <!-- Package Status Card -->
                 <div class="status-card">
                     <div class="status-header">
@@ -111,7 +110,7 @@
                 <!-- Progress Timeline -->
                 <div class="timeline-card">
                     <h2><i class="fas fa-route"></i> Delivery Progress</h2>
-                    
+
                     <div class="timeline">
                         <div class="timeline-item" data-status="pending">
                             <div class="timeline-icon">
@@ -183,7 +182,7 @@
 
                 <!-- Package Details Grid -->
                 <div class="details-grid">
-                    
+
                     <!-- Package Information -->
                     <div class="detail-card">
                         <h3><i class="fas fa-box-open"></i> Package Information</h3>
@@ -323,4 +322,5 @@
 
     <script src="tracking.js"></script>
 </body>
+
 </html>
