@@ -108,6 +108,13 @@ app.get('/api/accounts', async (req, res) => {
 // SERVER START
 // ==========================================
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`AF Logistics API running on port ${PORT}`);
-});
+
+// For local development
+if (process.env.NODE_ENV !== 'production') {
+    app.listen(PORT, () => {
+        console.log(`AF Logistics API running on port ${PORT}`);
+    });
+}
+
+// Export for Vercel serverless
+module.exports = app;
