@@ -372,13 +372,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                     
                     showNotification('Login successful! Redirecting...', 'success');
-                    
-                    // Initialize demo bookings if needed
-                    try {
-                        initializeDemoBookings();
-                    } catch (bookingError) {
-                        console.log('Demo bookings initialization skipped:', bookingError);
-                    }
 
                     const dashboardUrls = {
                         'admin': 'admin-dashboard.html',

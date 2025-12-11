@@ -53,13 +53,30 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Helper function to fetch bookings from API
+    async function fetchBookings(filters = {}) {
+        try {
+            const params = new URLSearchParams(filters);
+            const url = `/api/bookings${params.toString() ? '?' + params.toString() : ''}`;
+            const res = await fetch(url);
+            if (res.ok) {
+                return await res.json();
+            }
+            console.error('Failed to fetch bookings');
+            return [];
+        } catch (error) {
+            console.error('Error fetching bookings:', error);
+            return [];
+        }
+    }
+
     initializeUI();
 
     // ==========================================
     // AUTO-ASSIGN DELIVERIES TO RIDER
     // ==========================================
     function autoAssignDeliveries() {
-        const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+        const bookings = await fetchBookings();
         let updated = false;
 
         bookings.forEach(booking => {
@@ -89,8 +106,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // ==========================================
     // LOAD DASHBOARD STATISTICS
     // ==========================================
-    function loadDashboardStats() {
-        const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+    async function loadDashboardStats() {
+        const bookings = await fetchBookings({ riderId: currentUser.id });
         const riderDeliveries = bookings.filter(b => b.riderId === currentUser.id);
 
         // Calculate statistics
@@ -136,8 +153,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // ==========================================
     // LOAD ACTIVE DELIVERIES
     // ==========================================
-    function loadActiveDeliveries() {
-        const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+    async function loadActiveDeliveries() {
+        const bookings = await fetchBookings({ riderId: currentUser.id });
         const activeDeliveries = bookings.filter(b => 
             b.riderId === currentUser.id && 
             b.status !== 'Delivered' &&
@@ -202,9 +219,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // ==========================================
     let currentFilter = 'all';
 
-    function loadAssignedDeliveries(filter = 'all') {
+    async function loadAssignedDeliveries(filter = 'all') {
         currentFilter = filter;
-        const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+        const bookings = await fetchBookings({ riderId: currentUser.id });
         let assignedDeliveries = bookings.filter(b => 
             b.riderId === currentUser.id && 
             b.status !== 'Delivered'
@@ -390,8 +407,8 @@ document.addEventListener('DOMContentLoaded', function() {
     // ==========================================
     // UPDATE DELIVERY STATUS
     // ==========================================
-    window.updateDeliveryStatus = function(trackingId, newStatus) {
-        const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+    window.updateDeliveryStatus = async function(trackingId, newStatus) {
+        const bookings = await fetchBookings({ trackingId });
         const booking = bookings.find(b => b.trackingId === trackingId);
 
         if (!booking) {

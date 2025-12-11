@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Simulate API delay for better UX
         setTimeout(() => {
             // Get bookings from localStorage
-            const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+            const bookings = await fetchBookings({ trackingId });
             
             // Find booking by tracking ID
             const booking = bookings.find(b => b.trackingId === trackingId);
@@ -454,7 +454,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Refresh every 30 seconds for active deliveries
         refreshInterval = setInterval(() => {
-            const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+            const bookings = await fetchBookings();
             const booking = bookings.find(b => b.trackingId === trackingId);
             
             if (booking && booking.status !== 'Delivered') {
@@ -471,7 +471,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // CREATE SAMPLE BOOKINGS FOR TESTING
     // ==========================================
     function createSampleBookings() {
-        const bookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+        const bookings = await fetchBookings();
         
         // Only create samples if no bookings exist
         if (bookings.length === 0) {
