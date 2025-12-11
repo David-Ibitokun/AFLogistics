@@ -44,64 +44,40 @@ userSchema.set('toJSON', {
 const User = mongoose.models.User || mongoose.model('User', userSchema);
 
 // ==========================================
-// SERVERLESS HANDLER FOR VERCEL
+// LOGIN ENDPOINT
 // ==========================================
 module.exports = async (req, res) => {
-    await connectToDatabase();
-
     // Enable CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
     if (req.method === 'OPTIONS') {
         return res.status(200).end();
     }
 
+    if (req.method !== 'POST') {
+        return res.status(405).json({ error: 'Method not allowed' });
+    }
+
     try {
-        // GET /api - Get all users (for admin dashboard)
-        if (req.method === 'GET') {
-            const users = await User.find().sort({ createdAt: -1 });
-            return res.json(users);
+        await connectToDatabase();
+
+        const { email, password } = req.body;
+
+        if (!email || !password) {
+            return res.status(400).json({ error: 'Email and password required' });
         }
 
-        // POST /api - Handle login and registration based on body
-        if (req.method === 'POST') {
-            const body = req.body;
+        const user = await User.findOne({ email });
 
-            // Check if it's a login request (has password field)
-            if (body.email && body.password && !body.name) {
-                // Login
-                const user = await User.findOne({ email: body.email });
-
-                if (!user || user.password !== body.password) {
-                    return res.status(401).json({ error: 'Invalid email or password' });
-                }
-
-                return res.json(user);
-            }
-
-            // Registration (has name field)
-            if (body.name && body.email && body.password) {
-                const existing = await User.findOne({ email: body.email });
-
-                if (existing) {
-                    return res.status(409).json({ error: 'Email already registered' });
-                }
-
-                const newUser = new User(body);
-                await newUser.save();
-
-                return res.status(201).json(newUser);
-            }
-
-            return res.status(400).json({ error: 'Invalid request' });
+        if (!user || user.password !== password) {
+            return res.status(401).json({ error: 'Invalid email or password' });
         }
 
-        // Default 404
-        return res.status(404).json({ error: 'Not found' });
+        return res.json(user);
     } catch (error) {
-        console.error('API Error:', error);
+        console.error('Login error:', error);
         return res.status(500).json({ error: 'Server error' });
     }
 };

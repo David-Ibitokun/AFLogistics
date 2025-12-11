@@ -44,11 +44,9 @@ userSchema.set('toJSON', {
 const User = mongoose.models.User || mongoose.model('User', userSchema);
 
 // ==========================================
-// SERVERLESS HANDLER FOR VERCEL
+// ACCOUNTS ENDPOINT (GET/POST)
 // ==========================================
 module.exports = async (req, res) => {
-    await connectToDatabase();
-
     // Enable CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
@@ -59,49 +57,37 @@ module.exports = async (req, res) => {
     }
 
     try {
-        // GET /api - Get all users (for admin dashboard)
+        await connectToDatabase();
+
+        // GET - Return all users
         if (req.method === 'GET') {
             const users = await User.find().sort({ createdAt: -1 });
             return res.json(users);
         }
 
-        // POST /api - Handle login and registration based on body
+        // POST - Register new user
         if (req.method === 'POST') {
-            const body = req.body;
+            const { email, name } = req.body;
 
-            // Check if it's a login request (has password field)
-            if (body.email && body.password && !body.name) {
-                // Login
-                const user = await User.findOne({ email: body.email });
-
-                if (!user || user.password !== body.password) {
-                    return res.status(401).json({ error: 'Invalid email or password' });
-                }
-
-                return res.json(user);
+            if (!email || !name) {
+                return res.status(400).json({ error: 'Email and name required' });
             }
 
-            // Registration (has name field)
-            if (body.name && body.email && body.password) {
-                const existing = await User.findOne({ email: body.email });
+            const existing = await User.findOne({ email });
 
-                if (existing) {
-                    return res.status(409).json({ error: 'Email already registered' });
-                }
-
-                const newUser = new User(body);
-                await newUser.save();
-
-                return res.status(201).json(newUser);
+            if (existing) {
+                return res.status(409).json({ error: 'Email already registered' });
             }
 
-            return res.status(400).json({ error: 'Invalid request' });
+            const newUser = new User(req.body);
+            await newUser.save();
+
+            return res.status(201).json(newUser);
         }
 
-        // Default 404
-        return res.status(404).json({ error: 'Not found' });
+        return res.status(405).json({ error: 'Method not allowed' });
     } catch (error) {
-        console.error('API Error:', error);
+        console.error('Accounts error:', error);
         return res.status(500).json({ error: 'Server error' });
     }
 };
