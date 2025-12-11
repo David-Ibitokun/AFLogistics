@@ -249,7 +249,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // ==========================================
     const bookingForm = document.getElementById('bookingForm');
     
-    bookingForm.addEventListener('submit', function(e) {
+    bookingForm.addEventListener('submit', async function(e) {
         e.preventDefault();
 
         // Check if user is logged in
