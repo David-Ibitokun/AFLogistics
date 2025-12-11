@@ -347,6 +347,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
+
+            let loginSuccess = false;
+            
             try {
                 const res = await fetch('/api/login', {
                     method: 'POST',
@@ -355,6 +358,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
 
                 if (res.ok) {
+                    loginSuccess = true;
                     const user = await res.json();
                     
                     console.log('%c✅ Login Successful!', 'color: #4CAF50; font-weight: bold;');
@@ -380,12 +384,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         };
                         
                         console.log('   Redirecting to:', dashboardUrls[user.role]);
-                        
-                        try {
-                            window.location.href = dashboardUrls[user.role] || 'index.html';
-                        } catch (redirectError) {
-                            // Ignore redirect errors
-                        }
+                        window.location.href = dashboardUrls[user.role] || 'index.html';
                     }, 1000);
                 } else {
                     const err = await res.json();
@@ -394,8 +393,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             } catch (error) {
                 console.error('Login error:', error);
-                // Only show error if we're still on the login page
-                if (window.location.pathname.includes('login.html')) {
+                // Only show error if login didn't succeed
+                if (!loginSuccess) {
                     showNotification('Login failed. Server unavailable.', 'error');
                 }
             }
